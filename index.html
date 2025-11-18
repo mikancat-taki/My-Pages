@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mikancatのサイト | My Blog</title>
-    <link href="https://www.fbcover.jp/cover/cvr_02784.jpg" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* 全体のスタイル */
         body {
-            font-family: 'M PLUS Rounded 1c', sans-serif; /* フォント変更 */
-            background: #1e1e1e; /* 背景色を暗い色に変更 */
-            color: #f0f0f0; /* 文字色を明るい色に変更 */
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background: #1e1e1e;
+            color: #f0f0f0;
             margin: 0;
             padding: 0;
             line-height: 1.6;
@@ -18,7 +18,7 @@
 
         /* ヘッダー */
         header {
-            background: #282828; /* ヘッダーの背景色 */
+            background: #282828;
             color: white;
             padding: 40px 20px;
             text-align: center;
@@ -28,22 +28,21 @@
         header h1 {
             font-size: 2.5em;
             margin: 0;
-            /* アニメーション */
             animation: fadeIn 1.5s ease-out;
         }
 
         /* カバー画像コンテナ */
         .cover-image-container {
             width: 100%;
-            height: 300px; /* 画像の高さ */
-            background-image: url('cover-placeholder.jpg'); /* 👈ここにカバー画像のURLを設定してください */
+            height: 300px;
+            /* 💡 ここを更新しました！ */
+            background-image: url('https://www.fbcover.jp/cover/cvr_02784.jpg'); 
             background-size: cover;
             background-position: center;
-            background-color: #555; /* 画像がない場合の代替色 */
+            background-color: #555;
             margin-bottom: 30px;
             position: relative;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-            /* アニメーション */
             opacity: 0;
             animation: slideInDown 1s ease-out forwards;
             animation-delay: 0.5s;
@@ -54,12 +53,11 @@
             width: 90%;
             max-width: 900px;
             margin: 30px auto;
-            background: #282828; /* コンテナの背景色も暗い色に */
+            background: #282828;
             color: #e0e0e0;
             padding: 30px 50px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            /* アニメーション（遅延をかけて順番に出現） */
             opacity: 0;
             animation: fadeIn 1s ease-out forwards;
         }
@@ -72,13 +70,13 @@
         /* テキストのスタイル調整 */
         .container p, .container div {
             color: #e0e0e0;
-            font-size: 1.1em; /* 少し大きく */
-            text-align: left; /* 左揃えに修正 */
+            font-size: 1.1em;
+            text-align: left;
             margin: 10px 0;
         }
         
         .container h2 {
-            color: #00bcd4; /* タイトル色 */
+            color: #00bcd4;
             border-bottom: 2px solid #00bcd4;
             padding-bottom: 5px;
             margin-top: 0;
@@ -95,20 +93,20 @@
         .license-btn {
             display: inline-block;
             padding: 12px 25px;
-            background: #00bcd4; /* ボタンの色変更 */
-            color: #1e1e1e; /* 文字色を濃く */
+            background: #00bcd4;
+            color: #1e1e1e;
             text-decoration: none;
             border-radius: 30px;
             font-size: 1.1em;
             font-weight: bold;
-            transition: background 0.3s ease, transform 0.3s ease; /* アニメーション */
+            transition: background 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             margin: 0 10px;
         }
 
         .license-btn:hover {
-            background: #0097a7; /* ホバー時の色 */
-            transform: translateY(-3px); /* ホバー時に上に少し移動 */
+            background: #0097a7;
+            transform: translateY(-3px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
         }
 
@@ -174,4 +172,3 @@
 
 </body>
 </html>
-
