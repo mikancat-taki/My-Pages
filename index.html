@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikancatのサイト | My Blog</title>
+    <title>Mikancatのサイト | プロフィール</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* ベーススタイル */
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            background: #1e1e1e;
+            background: #1e1e1e; /* ダークな背景 */
             color: #f0f0f0;
             margin: 0;
             padding: 0;
@@ -28,36 +28,15 @@
         header h1 {
             font-size: 3em;
             margin: 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* 影で立体感 */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
             animation: fadeIn 1.5s ease-out;
-        }
-
-        /* ナビゲーションバー */
-        nav {
-            background: #00bcd4;
-            text-align: center;
-            padding: 10px 0;
-            margin-bottom: 30px;
-        }
-
-        nav a {
-            color: #1e1e1e;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: inline-block;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        nav a:hover {
-            background: #0097a7;
-            color: white;
         }
 
         /* カバー画像コンテナ */
         .cover-image-container {
             width: 100%;
             height: 300px;
+            /* 以前指定されたカバー画像のURLを使用 */
             background-image: url('https://www.fbcover.jp/cover/cvr_02784.jpg'); 
             background-size: cover;
             background-position: center;
@@ -84,10 +63,12 @@
             animation: fadeIn 1s ease-out forwards;
         }
         
+        /* コンテナに順番に出現するアニメーション遅延 */
         .container:nth-child(4) { animation-delay: 1.5s; }
         .container:nth-child(5) { animation-delay: 2.0s; }
         .container:nth-child(6) { animation-delay: 2.5s; }
 
+        /* テキストと見出し */
         .container p, .container div {
             color: #e0e0e0;
             font-size: 1.1em;
@@ -96,20 +77,20 @@
         }
         
         .container h2 {
-            color: #00bcd4;
+            color: #00bcd4; /* アクセントカラー */
             border-bottom: 2px solid #00bcd4;
             padding-bottom: 5px;
             margin-top: 0;
         }
 
-        /* ボタンのスタイル */
+        /* ボタンの配置とスタイル */
         .btn-center {
             text-align: center;
             margin-top: 30px;
             margin-bottom: 20px;
         }
 
-        .license-btn {
+        .action-btn {
             display: inline-block;
             padding: 12px 25px;
             background: #00bcd4;
@@ -123,7 +104,7 @@
             margin: 0 10px;
         }
 
-        .license-btn:hover {
+        .action-btn:hover {
             background: #0097a7;
             transform: translateY(-3px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
@@ -150,7 +131,6 @@
             from { transform: translateY(-50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-
     </style>
 </head>
 <body>
@@ -158,11 +138,6 @@
 <header>
     <h1>Mikancatのサイト</h1>
 </header>
-
-<nav>
-    <a href="index.html">ホーム</a>
-    <a href="blog.html">ブログ</a>
-</nav>
 
 <div class="cover-image-container">
     </div>
@@ -186,7 +161,7 @@
 
 <div class="container">
     <h2>💻 開発情報</h2>
-    <p>このサイトは、**HTML**、**CSS**、**JavaScript**、そして**Firebase**で開発されています。</p>
+    <p>このサイトは、**HTML**と**CSS**でシンプルに構築されています。</p>
     <p>開発者：**Mikancat**</p>
     <p>好きなこと：友達と話す、**プログラミング**</p>
 </div>
@@ -201,8 +176,8 @@
 </div>
 
 <div class="btn-center">
-    <a href="mit-license.html" class="license-btn">MIT License</a>
-    <a href="English.html" class="license-btn">English</a>
+    <a href="mit-license.html" class="action-btn">MIT License</a>
+    <a href="English.html" class="action-btn">English Page</a>
 </div>
 
 <footer>
