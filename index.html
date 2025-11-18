@@ -2,83 +2,83 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>俺のホームページ</title>
-    
+    <title>My Blog</title>
     <style>
-        /* ============================ */
-        /* 1. サイト全体の基本設定（背景） */
-        /* ============================ */
         body {
-            /* おまかせ背景：カバー画像を引き立たせる薄いグレー */
-            background-color: #f4f4f4; 
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            margin: 0; /* ブラウザデフォルトのマージンをリセット */
+            font-family: sans-serif;
+            background: #666666;
+            margin: 0;
             padding: 0;
-            color: #333; /* 文字の色 */
         }
-
-        /* ============================ */
-        /* 2. カバー画像セクションの設定 */
-        /* ============================ */
-        .hero-section {
-            /* ここに自分のカバー画像へのパスを指定してください！ */
-            background-image: url('cover-image-placeholder.jpg'); 
-            
-            /* 画像が画面いっぱいに広がるように設定 */
-            background-size: cover; 
-            background-position: center;
-            
-            /* 画面の高さの80%をセクションの高さにする */
-            height: 80vh; 
-            
-            /* 画像上の文字を中央揃えにするための設定 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            
-            /* 文字を見やすくする設定 */
-            color: white; 
+        header {
+            background: #333333;
+            color: white;
+            padding: 20px;
             text-align: center;
-            /* 文字の周りに影をつけて、どんな画像でも読みやすくする */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
         }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+        }
+        .post {
+            margin-bottom: 40px;
+        }
+        .post h2 {
+            margin-bottom: 10px;
+        }
+        .post .date {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #777;
+            font-size: 20px;
+            text-align: center;
+        }
+        a {
+            color: #777;
+            font-size: 14px;
+            text-align: center;
 
-        .hero-section h1 {
-            font-size: 3em;
-            margin-bottom: 0.2em;
         }
+        div {
+            color: #777;
+            font-size: 20px;
+            text-align: center;
+        }
+.btn-center {
+    text-align: center;
+    margin-top: 20px;
+}
 
-        .hero-section p {
-            font-size: 1.5em;
-        }
-        
-        /* ============================ */
-        /* 3. メインコンテンツの設定 */
-        /* ============================ */
-        .main-content {
-            /* サイトの横幅を固定し、背景色と区別するために白を設定 */
-            background-color: white;
-            max-width: 1000px; 
-            /* 画面中央に配置し、上下に余白を設ける */
-            margin: 40px auto; 
-            padding: 40px;
-            /* 背景のグレーの上からコンテンツが浮き上がっているように見せる影 */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-            border-radius: 8px;
-        }
+.license-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.2s;
+}
 
-        .main-content h2 {
-            color: #007bff; /* セクション見出しの色 */
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-            margin-top: 30px;
-        }
+.license-btn:hover {
+    background: #555;
+}
+
     </style>
 </head>
 <body>
+
+<header>
+    <h1>Mikancatのサイト</h1>
+</header>
+
 <div class="container">
     <p>名前：Mikancat</p>
     <p>メール:mikancat09@gmail.com</p>
@@ -97,11 +97,6 @@
     ディスコードサーバー：https://discord.gg/JqdKcCcNBw
     ルールなどは、サーバー内にあります
 </div>
-    
-        <p style="text-align: center; padding: 20px; color: #777;">
-            &copy; 2025 My Awesome Homepage. All Rights Reserved.
-        </p>
-    </footer>
 <div class="btn-center">
     <a href="mit-license.html" class="license-btn">MIT License</a>
 </div>
@@ -110,4 +105,3 @@
 </div>
 </body>
 </html>
-
