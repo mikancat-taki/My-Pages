@@ -195,83 +195,82 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+// blog.html の <script> 部分
+const API_BASE_URL = 'http://localhost:3000/api'; // Node.js サーバーのURL
 
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+// 誰でも投稿できる機能
+async function addNewPost() {
+    const title = document.getElementById('post-title').value;
+    const author = document.getElementById('post-author').value || '匿名';
+    const summary = document.getElementById('post-summary').value;
+    
+    if (!title || !summary) {
+        alert('タイトルと記事の概要は必須です！');
+        return;
+    }
 
-  // 誰でも投稿できる機能をFirebaseを使って実装するJavaScript
-  function addNewPost() {
-      const title = document.getElementById('post-title').value;
-      const author = document.getElementById('post-author').value || '匿名';
-      const summary = document.getElementById('post-summary').value;
-      const now = new Date();
-      const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
-      
-      if (!title || !summary) {
-          alert('タイトルと記事の概要は必須です！');
-          return;
-      }
+    try {
+        const response = await fetch(`${API_BASE_URL}/posts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title, author, summary }),
+        });
 
-      database.ref('posts').push({
-          title: title,
-          author: author,
-          summary: summary,
-          date: dateString,
-          timestamp: Date.now()
-      }).then(() => {
-          document.getElementById('post-title').value = '';
-          document.getElementById('post-author').value = '';
-          document.getElementById('post-summary').value = '';
-          alert('新しい記事が投稿されました！');
-      }).catch((error) => {
-          console.error("投稿エラー:", error);
-          alert('投稿中にエラーが発生しました。');
-      });
-  }
+        const result = await response.json();
 
-  // データベースから投稿を読み込んで表示する関数
-  function loadPosts() {
-      const container = document.getElementById('blog-posts-container');
+        if (result.success) {
+            alert('新しい記事が投稿されました！');
+            // フォームをクリア
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-author').value = '';
+            document.getElementById('post-summary').value = '';
+            // 投稿後、自動的に記事一覧が更新されます（loadPostsが実行されるため）
+        } else {
+            alert('投稿に失敗しました: ' + result.message);
+        }
+    } catch (error) {
+        console.error('通信エラー:', error);
+        alert('サーバーとの通信中にエラーが発生しました。Node.jsサーバーが起動しているか確認してください。');
+    }
+}
 
-      database.ref('posts').orderByChild('timestamp').on('value', (snapshot) => {
-          container.innerHTML = ''; 
-          
-          let posts = [];
-          snapshot.forEach((childSnapshot) => {
-              posts.push({ key: childSnapshot.key, ...childSnapshot.val() });
-          });
-          posts.reverse(); // 最新の投稿が一番上に
+// データベースから投稿を読み込んで表示する関数
+async function loadPosts() {
+    const container = document.getElementById('blog-posts-container');
+    container.innerHTML = ''; 
 
-          posts.forEach((post) => {
-              const postHTML = `
-                  <a href="single-post-template.html?id=${post.key}" class="post-card">
-                      <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=${post.title.substring(0, 10)}" alt="投稿の画像">
-                      <div class="post-content">
-                          <h3>${post.title}</h3>
-                          <span class="date">${post.date} / ${post.author}</span>
-                          <p>${post.summary.substring(0, 50)}...</p>
-                      </div>
-                  </a>
-              `;
-              const tempDiv = document.createElement('div');
-              tempDiv.innerHTML = postHTML.trim();
-              container.appendChild(tempDiv.firstChild);
-          });
-      });
-  }
+    try {
+        const response = await fetch(`${API_BASE_URL}/posts`);
+        const posts = await response.json();
 
-  document.addEventListener('DOMContentLoaded', loadPosts);
-</script>
+        if (Array.isArray(posts)) {
+            posts.forEach((post) => {
+                // NeDBのIDは "_id" なので、それをリンクのIDとして使用
+                const postId = post._id; 
+                const postHTML = `
+                    <a href="single-post-template.html?id=${postId}" class="post-card">
+                        <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=${post.title.substring(0, 10)}" alt="投稿の画像">
+                        <div class="post-content">
+                            <h3>${post.title}</h3>
+                            <span class="date">${post.date} / ${post.author}</span>
+                            <p>${post.summary.substring(0, 50)}...</p>
+                        </div>
+                    </a>
+                `;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = postHTML.trim();
+                container.appendChild(tempDiv.firstChild);
+            });
+        }
+    } catch (error) {
+        console.error('記事の読み込みエラー:', error);
+        container.innerHTML = `<p style="text-align:center; color:red;">記事の読み込みに失敗しました。サーバーが起動しているか確認してください。</p>`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadPosts);
 
 </body>
 </html>
