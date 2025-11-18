@@ -6,7 +6,8 @@
     <title>ブログ一覧 | Mikancatのサイト</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ベーススタイル (一部省略) */
+        /* CSSは index.html と共通化されています。
+           ここでは blog.html 固有のスタイルのみを記述し、重複は避けます。 */
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
             background: #1e1e1e;
@@ -94,7 +95,7 @@
             background: #0097a7;
         }
 
-        /* ブログリストのスタイル (変更なし) */
+        /* ブログリストのスタイル */
         .blog-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -179,53 +180,97 @@
         <textarea id="post-summary" placeholder="記事の概要や最初の部分を入力" rows="4"></textarea>
         <button onclick="addNewPost()">新しい記事を投稿する</button>
     </div>
-    </div>
+    
+    <hr>
+    
+    <h2>📜 全記事一覧</h2>
+    <div class="blog-list" id="blog-posts-container">
+        </div>
 </div>
 
 <footer>
     &copy; 2025 Mikancat's Site. All rights reserved.
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
-    // 誰でも投稿できる機能をシミュレーションするJavaScript
-    function addNewPost() {
-        const title = document.getElementById('post-title').value;
-        const author = document.getElementById('post-author').value || '匿名';
-        const summary = document.getElementById('post-summary').value;
-        const container = document.getElementById('blog-posts-container');
-        const now = new Date();
-        const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
-        
-        if (!title || !summary) {
-            alert('タイトルと記事の概要は必須です！');
-            return;
-        }
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
-        // 新しい投稿カードのHTMLを生成
-        const newPostId = Date.now(); // 一時的なID
-        const newPostHTML = `
-            <a href="single-post-template.html?id=${newPostId}" class="post-card" data-full-content="${summary}">
-                <img src="https://via.placeholder.com/400x180/555/FFFFFF?text=New+Post" alt="新しい投稿の画像">
-                <div class="post-content">
-                    <h3>${title}</h3>
-                    <span class="date">${dateString} / ${author}</span>
-                    <p>${summary.substring(0, 50)}...</p>
-                </div>
-            </a>
-        `;
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-        // HTML要素を作成し、リストの最初に追加
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newPostHTML.trim();
-        container.prepend(tempDiv.firstChild);
+  // 誰でも投稿できる機能をFirebaseを使って実装するJavaScript
+  function addNewPost() {
+      const title = document.getElementById('post-title').value;
+      const author = document.getElementById('post-author').value || '匿名';
+      const summary = document.getElementById('post-summary').value;
+      const now = new Date();
+      const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+      
+      if (!title || !summary) {
+          alert('タイトルと記事の概要は必須です！');
+          return;
+      }
 
-        // フォームをクリア
-        document.getElementById('post-title').value = '';
-        document.getElementById('post-author').value = '';
-        document.getElementById('post-summary').value = '';
+      database.ref('posts').push({
+          title: title,
+          author: author,
+          summary: summary,
+          date: dateString,
+          timestamp: Date.now()
+      }).then(() => {
+          document.getElementById('post-title').value = '';
+          document.getElementById('post-author').value = '';
+          document.getElementById('post-summary').value = '';
+          alert('新しい記事が投稿されました！');
+      }).catch((error) => {
+          console.error("投稿エラー:", error);
+          alert('投稿中にエラーが発生しました。');
+      });
+  }
 
-        alert('新しい記事が一時的に投稿されました！ (※ページを閉じると消えます)');
-    }
+  // データベースから投稿を読み込んで表示する関数
+  function loadPosts() {
+      const container = document.getElementById('blog-posts-container');
+
+      database.ref('posts').orderByChild('timestamp').on('value', (snapshot) => {
+          container.innerHTML = ''; 
+          
+          let posts = [];
+          snapshot.forEach((childSnapshot) => {
+              posts.push({ key: childSnapshot.key, ...childSnapshot.val() });
+          });
+          posts.reverse(); // 最新の投稿が一番上に
+
+          posts.forEach((post) => {
+              const postHTML = `
+                  <a href="single-post-template.html?id=${post.key}" class="post-card">
+                      <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=${post.title.substring(0, 10)}" alt="投稿の画像">
+                      <div class="post-content">
+                          <h3>${post.title}</h3>
+                          <span class="date">${post.date} / ${post.author}</span>
+                          <p>${post.summary.substring(0, 50)}...</p>
+                      </div>
+                  </a>
+              `;
+              const tempDiv = document.createElement('div');
+              tempDiv.innerHTML = postHTML.trim();
+              container.appendChild(tempDiv.firstChild);
+          });
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPosts);
 </script>
 
 </body>
