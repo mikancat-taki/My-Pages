@@ -6,7 +6,7 @@
     <title>ブログ一覧 | Mikancatのサイト</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* (1) ベースのスタイルはindex.htmlと共通化（今回は埋め込み） */
+        /* ベーススタイル (一部省略) */
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
             background: #1e1e1e;
@@ -25,15 +25,16 @@
         }
 
         header h1 {
-            font-size: 2.5em;
+            font-size: 3em;
             margin: 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
 
-        /* ナビゲーションバーの追加 */
         nav {
             background: #00bcd4;
             text-align: center;
             padding: 10px 0;
+            margin-bottom: 30px;
         }
 
         nav a {
@@ -53,16 +54,50 @@
         .container {
             width: 90%;
             max-width: 900px;
-            margin: 30px auto;
-            /* ブログページでは背景を透明にして、メインコンテンツを際立たせる */
-            background: none; 
-            padding: 0;
+            margin: 0 auto;
+            padding: 0 0 50px 0;
         }
 
-        /* (2) ブログ固有のスタイル */
+        /* 投稿フォームのスタイル */
+        .post-form-container {
+            background: #333;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .post-form-container input[type="text"], 
+        .post-form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #444;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .post-form-container button {
+            background: #00bcd4;
+            color: #1e1e1e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .post-form-container button:hover {
+            background: #0097a7;
+        }
+
+        /* ブログリストのスタイル (変更なし) */
         .blog-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 画面幅に合わせて自動で列数を調整 */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             padding-top: 20px;
         }
@@ -72,21 +107,21 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* ホバーアニメーション */
-            text-decoration: none; /* aタグの装飾を消す */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
             display: block;
             color: #e0e0e0;
         }
 
         .post-card:hover {
-            transform: translateY(-5px); /* ホバー時に少し上に浮き上がる */
+            transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
         }
 
         .post-card img {
             width: 100%;
             height: 180px;
-            object-fit: cover; /* 画像がコンテナを覆うように調整 */
+            object-fit: cover;
         }
 
         .post-content {
@@ -112,20 +147,17 @@
             margin: 0;
             color: #ccc;
         }
-
-        /* 詳細な投稿ページへのリンクボタン */
-        .read-more {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #00bcd4;
-            color: #1e1e1e;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 15px;
+        
+        /* フッターのスタイル */
+        footer {
+            background: #282828;
+            color: #999;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
             font-size: 0.9em;
-            font-weight: bold;
+            border-top: 1px solid #333;
         }
-
     </style>
 </head>
 <body>
@@ -140,27 +172,83 @@
 </nav>
 
 <div class="container">
-    <div class="blog-list">
-
-        <a href="post-1.html" class="post-card">
-            <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=Post+Image+1" alt="投稿1の画像">
+    <h2>📝 誰でも投稿</h2>
+    <div class="post-form-container">
+        <input type="text" id="post-title" placeholder="タイトルを入力">
+        <input type="text" id="post-author" placeholder="あなたの名前 (匿名可)">
+        <textarea id="post-summary" placeholder="記事の概要や最初の部分を入力" rows="4"></textarea>
+        <button onclick="addNewPost()">新しい記事を投稿する</button>
+    </div>
+    
+    <hr>
+    
+    <h2>📜 全記事一覧</h2>
+    <div class="blog-list" id="blog-posts-container">
+        <a href="single-post-template.html?id=1" class="post-card">
+            <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=Fortnite+Image" alt="フォートナイトの画像">
             <div class="post-content">
                 <h3>フォートナイトでビクロイ！</h3>
-                <span class="date">2025年11月18日</span>
+                <span class="date">2025年11月18日 / Mikancat</span>
                 <p>今日の試合は激アツだったよ！新しい武器の感想と戦略を公開します。</p>
             </div>
         </a>
 
-        <a href="post-2.html" class="post-card">
-            <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=Post+Image+2" alt="投稿2の画像">
+        <a href="single-post-template.html?id=2" class="post-card">
+            <img src="https://via.placeholder.com/400x180/00bcd4/FFFFFF?text=Programming+Image" alt="プログラミングの画像">
             <div class="post-content">
                 <h3>僕のプログラミング学習法</h3>
-                <span class="date">2025年11月15日</span>
+                <span class="date">2025年11月15日 / Mikancat</span>
                 <p>プログラミングを始めたきっかけと、12歳で学んでいることについて紹介します。</p>
             </div>
         </a>
-        </div>
+    </div>
 </div>
+
+<footer>
+    &copy; 2025 Mikancat's Site. All rights reserved.
+</footer>
+
+<script>
+    // 誰でも投稿できる機能をシミュレーションするJavaScript
+    function addNewPost() {
+        const title = document.getElementById('post-title').value;
+        const author = document.getElementById('post-author').value || '匿名';
+        const summary = document.getElementById('post-summary').value;
+        const container = document.getElementById('blog-posts-container');
+        const now = new Date();
+        const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+        
+        if (!title || !summary) {
+            alert('タイトルと記事の概要は必須です！');
+            return;
+        }
+
+        // 新しい投稿カードのHTMLを生成
+        const newPostId = Date.now(); // 一時的なID
+        const newPostHTML = `
+            <a href="single-post-template.html?id=${newPostId}" class="post-card" data-full-content="${summary}">
+                <img src="https://via.placeholder.com/400x180/555/FFFFFF?text=New+Post" alt="新しい投稿の画像">
+                <div class="post-content">
+                    <h3>${title}</h3>
+                    <span class="date">${dateString} / ${author}</span>
+                    <p>${summary.substring(0, 50)}...</p>
+                </div>
+            </a>
+        `;
+
+        // HTML要素を作成し、リストの最初に追加
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = newPostHTML.trim();
+        container.prepend(tempDiv.firstChild);
+
+        // フォームをクリア
+        document.getElementById('post-title').value = '';
+        document.getElementById('post-author').value = '';
+        document.getElementById('post-summary').value = '';
+
+        alert('新しい記事が一時的に投稿されました！ (※ページを閉じると消えます)');
+    }
+</script>
 
 </body>
 </html>
