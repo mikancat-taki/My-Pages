@@ -2,74 +2,126 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>My Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikancatのサイト | My Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* 全体のスタイル */
         body {
-            font-family: sans-serif;
-            background: #666666;
+            font-family: 'M PLUS Rounded 1c', sans-serif; /* フォント変更 */
+            background: #1e1e1e; /* 背景色を暗い色に変更 */
+            color: #f0f0f0; /* 文字色を明るい色に変更 */
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
+
+        /* ヘッダー */
         header {
-            background: #333333;
+            background: #282828; /* ヘッダーの背景色 */
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            /* アニメーション */
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* カバー画像コンテナ */
+        .cover-image-container {
+            width: 100%;
+            height: 300px; /* 画像の高さ */
+            background-image: url('cover-placeholder.jpg'); /* 👈ここにカバー画像のURLを設定してください */
+            background-size: cover;
+            background-position: center;
+            background-color: #555; /* 画像がない場合の代替色 */
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+            /* アニメーション */
+            opacity: 0;
+            animation: slideInDown 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* メインコンテンツのコンテナ */
         .container {
             width: 90%;
             max-width: 900px;
             margin: 30px auto;
-            background: white;
-            padding: 50px;
-            border-radius: 10px;
+            background: #282828; /* コンテナの背景色も暗い色に */
+            color: #e0e0e0;
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            /* アニメーション（遅延をかけて順番に出現） */
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
         }
-        .post {
-            margin-bottom: 40px;
-        }
-        .post h2 {
-            margin-bottom: 10px;
-        }
-        .post .date {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        p {
-            color: #777;
-            font-size: 20px;
-            text-align: center;
-        }
-        a {
-            color: #777;
-            font-size: 14px;
-            text-align: center;
+        
+        /* 各コンテナに順番に出現するアニメーション遅延 */
+        .container:nth-child(3) { animation-delay: 1.5s; }
+        .container:nth-child(4) { animation-delay: 2.0s; }
+        .container:nth-child(5) { animation-delay: 2.5s; }
 
+        /* テキストのスタイル調整 */
+        .container p, .container div {
+            color: #e0e0e0;
+            font-size: 1.1em; /* 少し大きく */
+            text-align: left; /* 左揃えに修正 */
+            margin: 10px 0;
         }
-        div {
-            color: #777;
-            font-size: 20px;
+        
+        .container h2 {
+            color: #00bcd4; /* タイトル色 */
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* ボタンの配置 */
+        .btn-center {
             text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
-.btn-center {
-    text-align: center;
-    margin-top: 20px;
-}
 
-.license-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: 0.2s;
-}
+        /* ボタンのスタイル */
+        .license-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #00bcd4; /* ボタンの色変更 */
+            color: #1e1e1e; /* 文字色を濃く */
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease; /* アニメーション */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin: 0 10px;
+        }
 
-.license-btn:hover {
-    background: #555;
-}
+        .license-btn:hover {
+            background: #0097a7; /* ホバー時の色 */
+            transform: translateY(-3px); /* ホバー時に上に少し移動 */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Keyframes アニメーション定義 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
     </style>
 </head>
@@ -79,29 +131,46 @@
     <h1>Mikancatのサイト</h1>
 </header>
 
+<div class="cover-image-container">
+    </div>
+
 <div class="container">
-    <p>名前：Mikancat</p>
-    <p>メール:mikancat09@gmail.com</p>
-    <p>やっているゲーム：フォートナイト、釣りスピリッツ釣って遊べる水族館、マイクラ、テラビットなど</p>
-    <p>好きなこと：友達と話す、プログラミング</p>
-    <p>年齢：12歳　誕生日：11月6日</p>
-    <p>好きな食べ物：ラーメン、イチゴ</p>
-    <p>特異なこと：野球</p>
+    <h2>自己紹介 🐈</h2>
+    <p>名前：**Mikancat**</p>
+    <p>メール: **mikancat09@gmail.com**</p>
+    <p>年齢：**12歳**　誕生日：**11月6日**</p>
+    <p>好きな食べ物：**ラーメン**、**イチゴ**</p>
+    <p>特技：**野球**</p>
 </div>
 
 <div class="container">
-    このサイトは、HTMLというプログラミング言語で開発されています
-    開発者：Mikancat
+    <h2>🎮 プレイ中のゲーム</h2>
+    <p>フォートナイト</p>
+    <p>釣りスピリッツ 釣って遊べる水族館</p>
+    <p>マイクラ</p>
+    <p>テラビット など</p>
 </div>
+
 <div class="container">
-    ディスコードサーバー：https://discord.gg/JqdKcCcNBw
-    ルールなどは、サーバー内にあります
+    <h2>💻 開発情報</h2>
+    <p>このサイトは、**HTML**と**CSS**で開発されています</p>
+    <p>開発者：**Mikancat**</p>
+    <p>好きなこと：友達と話す、**プログラミング**</p>
 </div>
+
+<div class="container">
+    <h2>💬 コミュニティ</h2>
+    <p>ディスコードサーバーに参加してね！</p>
+    <div>
+        <a href="https://discord.gg/JqdKcCcNBw" style="color: #00bcd4; text-decoration: underline; font-size: 1em;">https://discord.gg/JqdKcCcNBw</a>
+    </div>
+    <p style="font-size: 0.9em; margin-top: 15px;">※ルールなどは、サーバー内にあります</p>
+</div>
+
 <div class="btn-center">
     <a href="mit-license.html" class="license-btn">MIT License</a>
-</div>
-<div class="btn-center">
     <a href="English.html" class="license-btn">English</a>
 </div>
+
 </body>
 </html>
