@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>記事タイトル (ここに記事名が入ります) | Mikancatのサイト</title>
+    <title id="page-title">記事読み込み中... | Mikancatのサイト</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSSは blog.html のものをほぼ流用します。
-           ここでは個別記事とコメント機能のスタイルのみ追加・変更します。 */
+        /* CSSは blog.html のものを流用 */
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
             background: #1e1e1e;
@@ -107,6 +106,9 @@
             font-weight: bold;
             transition: background 0.3s;
         }
+        .comment-form button:hover {
+            background: #0097a7;
+        }
         .comment-list {
             margin-top: 20px;
         }
@@ -151,24 +153,14 @@
 
 <div class="container">
     <div class="article-content">
-        <h2 id="article-title">フォートナイトでビクロイ！ (仮)</h2>
-        <div class="article-meta">投稿者: <span id="article-author">Mikancat</span> | 2025年11月18日</div>
+        <h2 id="article-title">記事を読み込んでいます...</h2>
+        <div class="article-meta">投稿者: <span id="article-author"></span> | <span id="article-date"></span></div>
         <div class="article-body">
-            <p>
-                今日のフォートナイトは最高だったよ！新しいシーズンになってから初めてのビクトリーロイヤルを達成できたんだ。新しいエリアの攻略法や、あのレアな武器の隠し場所について詳しく解説していくね。
-            </p>
-            <p>
-                特におすすめなのは、マップ北東の秘密基地だよ。資材も豊富で、初期降下に最適！みんなも試してみてね。
-            </p>
-            <p>
-                コメント欄で、みんなの好きなゲームやビクロイのコツを教えてくれると嬉しいな！
-            </p>
-            <img src="https://via.placeholder.com/800x400/00bcd4/FFFFFF?text=Article+Image" style="width: 100%; border-radius: 8px; margin-top: 20px;" alt="記事のメイン画像">
-        </div>
+            </div>
     </div>
 
     <div class="comment-section">
-        <h3 id="comment-count">コメント (2件)</h3>
+        <h3 id="comment-count">コメント (0件)</h3>
         
         <div class="comment-form">
             <input type="text" id="comment-author" placeholder="名前 (匿名可)">
@@ -177,14 +169,6 @@
         </div>
 
         <div class="comment-list" id="comment-list">
-            <div class="comment">
-                <div class="comment-meta">CatLover | 2025年11月18日 19:30</div>
-                <div class="comment-body">ビクロイおめでとう！新しい武器、私も使いこなせるように頑張るよ！</div>
-            </div>
-            <div class="comment">
-                <div class="comment-meta">通りすがりのプログラマー | 2025年11月18日 20:01</div>
-                <div class="comment-body">サイトのデザインがカッコいいね！プログラミングも頑張って！</div>
-            </div>
             </div>
     </div>
 </div>
@@ -193,46 +177,108 @@
     &copy; 2025 Mikancat's Site. All rights reserved.
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
-    // コメント機能のシミュレーション
-    let commentCounter = 2; // 初期コメント数
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
-    function addComment() {
-        const author = document.getElementById('comment-author').value || '匿名ユーザー';
-        const text = document.getElementById('comment-text').value;
-        const commentList = document.getElementById('comment-list');
-        
-        if (!text) {
-            alert('コメントを入力してください！');
-            return;
-        }
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  let postId = null; // 現在の記事IDを格納する変数
 
-        const now = new Date();
-        const timeString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes()}`;
+  // URLから記事IDを取得する
+  function getPostIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+  }
 
-        // 新しいコメントのHTMLを生成
-        const newCommentHTML = `
-            <div class="comment">
-                <div class="comment-meta">${author} | ${timeString}</div>
-                <div class="comment-body">${text}</div>
-            </div>
-        `;
+  // 記事を読み込む関数
+  function loadPost() {
+      postId = getPostIdFromUrl();
+      if (!postId) {
+          document.getElementById('article-title').textContent = "エラー: 記事IDが指定されていません。";
+          return;
+      }
 
-        // コメントリストの最初に追加
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newCommentHTML.trim();
-        commentList.prepend(tempDiv.firstChild);
+      // 記事データをFirebaseから取得
+      database.ref('posts/' + postId).once('value', (snapshot) => {
+          const post = snapshot.val();
+          if (post) {
+              document.getElementById('page-title').textContent = `${post.title} | Mikancatのサイト`;
+              document.getElementById('article-title').textContent = post.title;
+              document.getElementById('article-author').textContent = post.author;
+              document.getElementById('article-date').textContent = post.date;
+              document.querySelector('.article-body').innerHTML = `<p>${post.summary.replace(/\n/g, '</p><p>')}</p>`; // 簡易的な改行処理
+              loadComments();
+          } else {
+              document.getElementById('article-title').textContent = "エラー: 記事が見つかりません。";
+          }
+      });
+  }
 
-        // コメント数を更新
-        commentCounter++;
-        document.getElementById('comment-count').textContent = `コメント (${commentCounter}件)`;
+  // コメントを読み込む関数
+  function loadComments() {
+      const commentList = document.getElementById('comment-list');
+      database.ref('comments/' + postId).on('value', (snapshot) => {
+          commentList.innerHTML = '';
+          let commentCount = 0;
+          
+          snapshot.forEach((childSnapshot) => {
+              const comment = childSnapshot.val();
+              const newCommentHTML = `
+                  <div class="comment">
+                      <div class="comment-meta">${comment.author} | ${comment.date}</div>
+                      <div class="comment-body">${comment.text}</div>
+                  </div>
+              `;
+              const tempDiv = document.createElement('div');
+              tempDiv.innerHTML = newCommentHTML.trim();
+              commentList.prepend(tempDiv.firstChild); // 最新コメントを上に追加
+              commentCount++;
+          });
+          document.getElementById('comment-count').textContent = `コメント (${commentCount}件)`;
+      });
+  }
 
-        // フォームをクリア
-        document.getElementById('comment-author').value = '';
-        document.getElementById('comment-text').value = '';
+  // コメントを追加する関数
+  function addComment() {
+      const author = document.getElementById('comment-author').value || '匿名ユーザー';
+      const text = document.getElementById('comment-text').value;
+      
+      if (!text || !postId) {
+          alert('コメントと記事IDは必須です！');
+          return;
+      }
 
-        alert('コメントが一時的に投稿されました！ (※ページを閉じると消えます)');
-    }
+      const now = new Date();
+      const dateString = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes()}`;
+      
+      // コメントデータをFirebaseにプッシュ
+      database.ref('comments/' + postId).push({
+          author: author,
+          text: text,
+          date: dateString,
+          timestamp: Date.now()
+      }).then(() => {
+          document.getElementById('comment-author').value = '';
+          document.getElementById('comment-text').value = '';
+          // loadCommentsが自動で更新してくれるため、特に何もしなくてOK
+      }).catch((error) => {
+          console.error("コメント投稿エラー:", error);
+          alert('コメント投稿中にエラーが発生しました。');
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPost);
 </script>
 
 </body>
