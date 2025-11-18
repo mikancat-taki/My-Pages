@@ -1,108 +1,176 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikancat's Site | My Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Global Styles */
         body {
-            font-family: sans-serif;
-            background: #666666;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background: #1e1e1e;
+            color: #f0f0f0;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
+
+        /* Header */
         header {
-            background: #333333;
+            background: #282828;
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            /* Animation */
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Cover Image Container */
+        .cover-image-container {
+            width: 100%;
+            height: 300px;
+            background-image: url('cover-placeholder.jpg'); /* 👈 Set your cover image URL here */
+            background-size: cover;
+            background-position: center;
+            background-color: #555;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+            /* Animation */
+            opacity: 0;
+            animation: slideInDown 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Main Content Container */
         .container {
             width: 90%;
             max-width: 900px;
             margin: 30px auto;
-            background: white;
-            padding: 50px;
-            border-radius: 10px;
+            background: #282828;
+            color: #e0e0e0;
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            /* Animation (staggered appearance) */
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
         }
-        .post {
-            margin-bottom: 40px;
-        }
-        .post h2 {
-            margin-bottom: 10px;
-        }
-        .post .date {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        p {
-            color: #777;
-            font-size: 20px;
-            text-align: center;
-        }
-        a {
-            color: #777;
-            font-size: 14px;
-            text-align: center;
+        
+        /* Staggered animation delay for each container */
+        .container:nth-child(3) { animation-delay: 1.5s; }
+        .container:nth-child(4) { animation-delay: 2.0s; }
+        .container:nth-child(5) { animation-delay: 2.5s; }
 
+        /* Text Style Adjustments */
+        .container p, .container div {
+            color: #e0e0e0;
+            font-size: 1.1em;
+            text-align: left;
+            margin: 10px 0;
         }
-        div {
-            color: #777;
-            font-size: 20px;
+        
+        .container h2 {
+            color: #00bcd4;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* Button Alignment */
+        .btn-center {
             text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
-.btn-center {
-    text-align: center;
-    margin-top: 20px;
-}
 
-.license-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: 0.2s;
-}
+        /* Button Style */
+        .license-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #00bcd4;
+            color: #1e1e1e;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin: 0 10px;
+        }
 
-.license-btn:hover {
-    background: #555;
-}
+        .license-btn:hover {
+            background: #0097a7;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Keyframes Animation Definition */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Mikancatのサイト</h1>
+    <h1>Mikancat's Site</h1>
 </header>
 
+<div class="cover-image-container">
+    </div>
+
 <div class="container">
-Name: Mikancat
-Email: mikancat09@gmail.com
-Games I play: Fortnite, Fishing Spirits Aquarium, Minecraft, Terabit, etc.
-Hobbies: Talking with friends, programming
-Age: 12, Birthday: November 6th
-Favorite Foods: Ramen, strawberries
-Unique Thing: Baseball
+    <h2>Self Introduction 🐈</h2>
+    <p>Name: **Mikancat**</p>
+    <p>Email: **mikancat09@gmail.com**</p>
+    <p>Age: **12**　Birthday: **November 6th**</p>
+    <p>Favorite Food: **Ramen**, **Strawberry**</p>
+    <p>Special Skill: **Baseball**</p>
 </div>
 
 <div class="container">
-This site was developed using a programming language called HTML.
-Developer: Mikancat
+    <h2>🎮 Games I Play</h2>
+    <p>Fortnite</p>
+    <p>Tsuri Spirits: Catch and Play Aquarium (釣りスピリッツ 釣って遊べる水族館)</p>
+    <p>Minecraft</p>
+    <p>Terravit, etc.</p>
 </div>
+
 <div class="container">
-Discord Server: https://discord.gg/JqdKcCcNBw
-Rules and more are available within the server.
+    <h2>💻 Development Info</h2>
+    <p>This site is developed using **HTML** and **CSS**</p>
+    <p>Developer: **Mikancat**</p>
+    <p>Hobbies: Talking with friends, **Programming**</p>
 </div>
+
+<div class="container">
+    <h2>💬 Community</h2>
+    <p>Join our Discord Server!</p>
+    <div>
+        <a href="https://discord.gg/JqdKcCcNBw" style="color: #00bcd4; text-decoration: underline; font-size: 1em;">https://discord.gg/JqdKcCcNBw</a>
+    </div>
+    <p style="font-size: 0.9em; margin-top: 15px;">*Rules and guidelines are available within the server.</p>
+</div>
+
 <div class="btn-center">
     <a href="mit-license.html" class="license-btn">MIT License</a>
-</div>
-<div class="btn-center">
     <a href="index.html" class="license-btn">Japanese</a>
 </div>
+
 </body>
 </html>
-
