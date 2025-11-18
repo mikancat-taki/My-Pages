@@ -6,7 +6,7 @@
     <title>Mikancat's Site | My Blog</title>
     <link href="https://www.fbcover.jp/cover/cvr_02784.jpg" rel="stylesheet">
     <style>
-        /* Global Styles */
+        /* 全体のスタイル */
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
             background: #1e1e1e;
@@ -16,7 +16,7 @@
             line-height: 1.6;
         }
 
-        /* Header */
+        /* ヘッダー */
         header {
             background: #282828;
             color: white;
@@ -28,28 +28,27 @@
         header h1 {
             font-size: 2.5em;
             margin: 0;
-            /* Animation */
             animation: fadeIn 1.5s ease-out;
         }
 
-        /* Cover Image Container */
+        /* カバー画像コンテナ */
         .cover-image-container {
             width: 100%;
             height: 300px;
-            background-image: url('cover-placeholder.jpg'); /* 👈 Set your cover image URL here */
+            /* 💡 ここを更新しました！ */
+            background-image: url('https://www.fbcover.jp/cover/cvr_02784.jpg'); 
             background-size: cover;
             background-position: center;
             background-color: #555;
             margin-bottom: 30px;
             position: relative;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-            /* Animation */
             opacity: 0;
             animation: slideInDown 1s ease-out forwards;
             animation-delay: 0.5s;
         }
 
-        /* Main Content Container */
+        /* メインコンテンツのコンテナ */
         .container {
             width: 90%;
             max-width: 900px;
@@ -59,17 +58,16 @@
             padding: 30px 50px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            /* Animation (staggered appearance) */
             opacity: 0;
             animation: fadeIn 1s ease-out forwards;
         }
         
-        /* Staggered animation delay for each container */
+        /* 各コンテナに順番に出現するアニメーション遅延 */
         .container:nth-child(3) { animation-delay: 1.5s; }
         .container:nth-child(4) { animation-delay: 2.0s; }
         .container:nth-child(5) { animation-delay: 2.5s; }
 
-        /* Text Style Adjustments */
+        /* テキストのスタイル調整 */
         .container p, .container div {
             color: #e0e0e0;
             font-size: 1.1em;
@@ -84,14 +82,14 @@
             margin-top: 0;
         }
 
-        /* Button Alignment */
+        /* ボタンの配置 */
         .btn-center {
             text-align: center;
             margin-top: 30px;
             margin-bottom: 20px;
         }
 
-        /* Button Style */
+        /* ボタンのスタイル */
         .license-btn {
             display: inline-block;
             padding: 12px 25px;
@@ -112,7 +110,7 @@
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Keyframes Animation Definition */
+        /* Keyframes アニメーション定義 */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -174,4 +172,5 @@
 
 </body>
 </html>
+
 
