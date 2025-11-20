@@ -1,20 +1,46 @@
-<!-- ============ english.html ============ -->
+<!-- ==========================
+mit.html (改善デザイン)
+============================== -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>English Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIT License</title>
 <style>
-body { background:#111; color:white; font-family:sans-serif; padding:40px; }
-h1 { text-align:center; }
+body{
+background:#101114;
+color:#fff;
+font-family:"Segoe UI",sans-serif;
+padding:30px;
+}
+.box{
+max-width:800px;margin:0 auto;padding:25px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+backdrop-filter:blur(12px);
+border-radius:18px;
+}
+pre{
+white-space:pre-wrap;
+font-size:0.95rem;
+}
+.copy{
+background:#4aa3ff;color:#fff;
+padding:8px 16px;border-radius:10px;
+cursor:pointer;margin-bottom:15px;
+}
 </style>
 </head>
 <body>
-<h1>English Version</h1>
-<p>Hello! This is the English version of your website.</p>
-<p>You can add English descriptions of your works, your profile, etc.</p>
+<h1>MIT License</h1>
+<div class="box">
+<button class="copy" onclick="copyMIT()">Copy License</button>
+<pre id="mitText">
+MIT License
 
 
-<p><a class="btn" href="index.html" style="background:#ff7a00; padding:10px 20px; border-radius:10px; text-decoration:none; color:white;">Back</a></p>
-</body>
-</html>
+Copyright (c) 2025 Mikancat
+
+
+Permission is hereby granted, free of charge...
