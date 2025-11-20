@@ -1,190 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikancatのサイト | プロフィール</title>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* ベーススタイル */
-        body {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            background: #1e1e1e; /* ダークな背景 */
-            color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>My Pages — mikancat</title>
+<meta name="description" content="Personal site: modern, single-file HTML/CSS/JS — drop into GitHub Pages." />
+<meta name="theme-color" content="#ffffff" />
 
-        /* ヘッダー */
-        header {
-            background: #282828;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
 
-        header h1 {
-            font-size: 3em;
-            margin: 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
-            animation: fadeIn 1.5s ease-out;
-        }
+<!--
+Single-file static page intended to replace: https://mikancat-taki.github.io/My-Pages/
+- No external resources (fonts/images) used
+- Responsive, modern glass UI, animated wave background
+- Settings panel (theme, accent color, toggle compact layout)
+- All code is HTML-only (CSS & JS inline)
+-->
 
-        /* カバー画像コンテナ */
-        .cover-image-container {
-            width: 100%;
-            height: 300px;
-            /* 以前指定されたカバー画像のURLを使用 */
-            background-image: url('https://www.fbcover.jp/cover/cvr_02784.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-color: #555;
-            margin-bottom: 30px;
-            position: relative;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: slideInDown 1s ease-out forwards;
-            animation-delay: 0.5s;
-        }
 
-        /* メインコンテンツのコンテナ */
-        .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 30px auto;
-            background: #282828;
-            color: #e0e0e0;
-            padding: 30px 50px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-        
-        /* コンテナに順番に出現するアニメーション遅延 */
-        .container:nth-child(4) { animation-delay: 1.5s; }
-        .container:nth-child(5) { animation-delay: 2.0s; }
-        .container:nth-child(6) { animation-delay: 2.5s; }
+<style>
+:root{
+--bg:#f5f7fb;
+--card:#ffffffcc;
+--muted:#6b7280;
+--accent:#6c5ce7; /* default accent */
+--glass-blur:8px;
+--radius:14px;
+--maxw:1100px;
+color-scheme: light;
+--text:#111827;
+}
+[data-theme="dark"]{
+--bg:#0b1020;
+--card:#0f1724cc;
+--muted:#9aa3b2;
+--accent:#7c5cff;
+--text:#e6eef8;
+color-scheme: dark;
+}
 
-        /* テキストと見出し */
-        .container p, .container div {
-            color: #e0e0e0;
-            font-size: 1.1em;
-            text-align: left;
-            margin: 10px 0;
-        }
-        
-        .container h2 {
-            color: #00bcd4; /* アクセントカラー */
-            border-bottom: 2px solid #00bcd4;
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
 
-        /* ボタンの配置とスタイル */
-        .btn-center {
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text);}
 
-        .action-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background: #00bcd4;
-            color: #1e1e1e;
-            text-decoration: none;
-            border-radius: 30px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: background 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin: 0 10px;
-        }
 
-        .action-btn:hover {
-            background: #0097a7;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
-        }
+/* wave background */
+.bg-wrap{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.wave{
+position:absolute;left:50%;transform:translateX(-50%);
+width:140%;height:520px;bottom:-120px;filter:blur(10px) saturate(1.05);
+opacity:0.95;mix-blend-mode:soft-light
+}
+/* multiple layered waves */
+.wave svg{display:block;width:100%;height:100%}
+.wave.wave-1{opacity:0.35;bottom:-160px}
+.wave.wave-2{opacity:0.22;bottom:-40px;transform:translateX(-50%) scale(1.05)}
 
-        /* フッター */
-        footer {
-            background: #282828;
-            color: #999;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            font-size: 0.9em;
-            border-top: 1px solid #333;
-        }
 
-        /* アニメーション定義 */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+/* page container */
+.wrap{max-width:var(--maxw);margin:36px auto;padding:28px;display:grid;gap:20px;grid-template-columns:1fr 360px}
+@media (max-width:920px){.wrap{grid-template-columns:1fr;padding:20px}}
 
-        @keyframes slideInDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-    </style>
-</head>
-<body>
 
-<header>
-    <h1>Mikancatのサイト</h1>
-</header>
+header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4dd0e1);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 6px 20px rgba(15,23,42,0.12)}
+.title{font-size:1.05rem;font-weight:700}
+.subtitle{font-size:0.82rem;color:var(--muted)}
 
-<div class="cover-image-container">
-    </div>
 
-<div class="container">
-    <h2>自己紹介 🐈</h2>
-    <p>名前：**Mikancat**</p>
-    <p>メール: **mikancat09@gmail.com**</p>
-    <p>年齢：**12歳**　誕生日：**11月6日**</p>
-    <p>好きな食べ物：**ラーメン**、**イチゴ**</p>
-    <p>特技：**野球**</p>
-</div>
+nav{display:flex;gap:8px;align-items:center}
+.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#4dd0e1);color:white;border:none;box-shadow:0 8px 30px rgba(108,92,231,0.18)}
 
-<div class="container">
-    <h2>🎮 プレイ中のゲーム</h2>
-    <p>フォートナイト</p>
-    <p>釣りスピリッツ 釣って遊べる水族館</p>
-    <p>マイクラ</p>
-    <p>テラビット など</p>
-</div>
 
-<div class="container">
-    <h2>💻 開発情報</h2>
-    <p>このサイトは、**HTML**と**CSS**でシンプルに構築されています。</p>
-    <p>開発者：**Mikancat**</p>
-    <p>好きなこと：友達と話す、**プログラミング**</p>
-</div>
+/* main card */
+.hero{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35));backdrop-filter:blur(var(--glass-blur));border-radius:var(--radius);padding:26px;box-shadow:0 6px 30px rgba(2,6,23,0.08);border:1px solid rgba(255,255,255,0.5)}
+[data-theme="dark"] .hero{background:linear-gradient(180deg, rgba(15,23,36,0.6), rgba(12,18,30,0.25));border:1px solid rgba(255,255,255,0.04)}
 
-<div class="container">
-    <h2>💬 コミュニティ</h2>
-    <p>ディスコードサーバーに参加してね！</p>
-    <div>
-        <a href="https://discord.gg/JqdKcCcNBw" style="color: #00bcd4; text-decoration: underline; font-size: 1em;">https://discord.gg/JqdKcCcNBw</a>
-    </div>
-    <p style="font-size: 0.9em; margin-top: 15px;">※ルールなどは、サーバー内にあります</p>
-</div>
 
-<div class="btn-center">
-    <a href="mit-license.html" class="action-btn">MIT License</a>
-    <a href="English.html" class="action-btn">English Page</a>
-</div>
+.hero-grid{display:grid;grid-template-columns:1fr 260px;gap:18px;align-items:center}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
 
-<footer>
-    &copy; 2025 Mikancat's Site. All rights reserved.
-</footer>
 
-</body>
+.profile{display:flex;gap:18px;align-items:center}
+.avatar{width:96px;height:96px;border-radius:16px;display:grid;place-items:center;font-weight:800;font-size:1.5rem;background:linear-gradient(135deg,var(--accent),transparent);color:white;box-shadow:0 8px 30px rgba(12,18,30,0.12)}
+.intro h1{margin:0;font-size:1.4rem}
+.intro p{margin:6px 0 0;color:var(--muted)}
+
+
+.actions{display:flex;gap:8px;margin-top:12px}
+
+
+/* right column cards */
+.card{background:var(--card);border-radius:12px;padding:14px;backdrop-filter:blur(var(--glass-blur));border:1px solid rgba(255,255,255,0.12)}
+.small{font-size:0.9rem}
+.link-list{display:flex;flex-direction:column;gap:8px}
+.link-list a{display:inline-flex;align-items:center;gap:10px;padding:8px;border-radius:10px;text-decoration:none;color:var(--text);font-weight:600}
 </html>
-
